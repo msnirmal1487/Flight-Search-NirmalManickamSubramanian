@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { importProvidersFrom } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogActions, MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +25,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatDialogActions
   ],
   providers: [CitiesService, importProvidersFrom(MatNativeDateModule)],
   bootstrap: [AppComponent],

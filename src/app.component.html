@@ -1,0 +1,44 @@
+<mat-toolbar>
+    <span>Search My Flight</span>
+</mat-toolbar>
+
+<div class="content-div">
+    <div class="form-div">
+        <form (submit)="onSubmit($event)" [formGroup]="flightSearchForm">
+            <form [formGroup]="citiesFormGroup" style="width: 100%;">
+                <mat-form-field>
+                    <mat-label>{{departureCityLabel}}</mat-label>
+                    <mat-select [formControl]="departureCity" (selectionChange)="checkFormValidity()">
+                        <mat-option *ngFor="let city of departureCities" value="{{city.value}}">{{city.name}}</mat-option>
+                    </mat-select>
+                    <mat-error>{{departureCityLabel}} is required</mat-error>
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <mat-label>{{destinationCityLabel}}</mat-label>
+                    <mat-select [formControl]="destinationCity" (selectionChange)="checkFormValidity()">
+                        <mat-option *ngFor="let city of destinationCities" value="{{city.value}}">{{city.name}}</mat-option>
+                    </mat-select>
+                    <mat-error>{{destinationCityLabel}} is required</mat-error>
+                </mat-form-field>
+                <mat-error *ngIf="!departureCity.invalid && !destinationCity.invalid && citiesFormGroup.errors && citiesFormGroup.errors['citiesMatch']">{{departureCityLabel}} and {{destinationCityLabel}} cannot be the same</mat-error>
+            </form>
+
+            <mat-form-field>
+                <mat-label>{{travelDatesLabel}}</mat-label>
+                <mat-date-range-input  [rangePicker]="picker">
+                    <input [formControl]="travelDateStart" (selectionChange)="checkFormValidity()" matStartDate placeholder="Departure date">
+                    <input [formControl]="travelDateEnd" (change)="checkFormValidity()" matEndDate placeholder="Return date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-error *ngIf="travelDateStart.invalid">Travel start date is required</mat-error>
+                <mat-error *ngIf="travelDateEnd.invalid">Travel end date is required</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button [disabled]="flightSearchForm.invalid">Submit</button>
+              
+        </form>
+    </div>
+</div>
