@@ -1,11 +1,11 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
     <span>Search My Flight</span>
 </mat-toolbar>
 
 <div class="content-div">
     <div class="form-div">
         <form (submit)="onSubmit($event)" [formGroup]="flightSearchForm">
-            <mat-form-field>
+            <mat-form-field color="primary"> 
                 <mat-label>{{departureCityLabel}}</mat-label>
                 <mat-select [formControl]="departureCity" (selectionChange)="checkFormValidity()">
                     <mat-option *ngFor="let city of departureCities" value="{{city.value}}">{{city.name}}</mat-option>
@@ -16,7 +16,7 @@
                 </span></mat-error>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field  color="primary">
                 <mat-label>{{destinationCityLabel}}</mat-label>
                 <mat-select [formControl]="destinationCity" (selectionChange)="checkFormValidity()">
                     <mat-option *ngFor="let city of destinationCities" value="{{city.value}}">{{city.name}}</mat-option>
@@ -27,7 +27,7 @@
                 </span></mat-error>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field  color="primary">
                 <mat-label>{{travelDatesLabel}}</mat-label>
                 <mat-date-range-input  [rangePicker]="picker">
                     <input (keydown)="disallowTyping($event)" maxlength="10" [formControl]="travelDateStart" matStartDate placeholder="Departure date">
@@ -48,7 +48,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <button mat-raised-button [disabled]="flightSearchForm.invalid">Submit</button>
+            <button mat-raised-button color="primary" [disabled]="flightSearchForm.invalid">Submit</button>
               
         </form>
     </div>
