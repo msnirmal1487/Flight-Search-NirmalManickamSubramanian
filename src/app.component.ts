@@ -28,19 +28,23 @@ export class AppComponent implements OnInit {
   isFormInvalid: boolean = false;
 
   flightSearchForm
-  departureCity = new FormControl('', [Validators.required])
-  destinationCity = new FormControl('', [Validators.required])
-  citiesFormGroup
-  travelDateStart = new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.validatorService.isDateValid()])
-  travelDateEnd = new FormControl('', [Validators.required])
+  departureCity = new FormControl('', [])
+  destinationCity = new FormControl('', [Validators.required, this.validatorService.isCitiesSameValidator(this.departureCity)])
+  
+  travelDateStart = new FormControl('', [Validators.required, Validators.maxLength(10), this.validatorService.isDateValid()])
+  travelDateEnd = new FormControl('', [Validators.required, Validators.maxLength(10), this.validatorService.isDateValid()])
 
   constructor() {
-    this.citiesFormGroup = new FormGroup({ departureCity: this.departureCity, destinationCity: this.destinationCity }, { validators: this.validatorService.isCitiesNotSameValidator() });
+    this.departureCity.addValidators([Validators.required, this.validatorService.isCitiesSameValidator(this.destinationCity)]);
 
-    this.flightSearchForm = new FormGroup({citiesFormGroup: this.citiesFormGroup, travelDateStart: this.travelDateStart, travelDateEnd: this.travelDateEnd})
+    this.flightSearchForm = new FormGroup({departureCity: this.departureCity, 
+      destinationCity: this.destinationCity, 
+      travelDateStart: this.travelDateStart, 
+      travelDateEnd: this.travelDateEnd})
   }
 
   ngOnInit(): void {
+    
     this.citiesService.getCities().subscribe(cities => {
       this.departureCities = [...cities];
       this.destinationCities = [...cities];
@@ -69,19 +73,13 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res){
-        this.departureCity.reset();
-        this.destinationCity.reset();
-        this.travelDateStart.reset();
-        this.travelDateEnd.reset();
+        const currentUrl = window.location.href ;
+        window.location.href = currentUrl;
       }
     });
   }
 
-  allowOnlyValidKeys(key: KeyboardEvent){
-    if (key.key === 'Backspace' || key.key === 'Delete') {
-      return true;
-    }
-
-    return new RegExp('^[0-9/]+$').test(key.key);
+  disallowTyping(key: KeyboardEvent){
+    return false;
   }
 }

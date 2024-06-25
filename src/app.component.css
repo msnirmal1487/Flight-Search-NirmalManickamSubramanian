@@ -12,7 +12,6 @@ body {
 
 .form-div {
     width: 100%;
-    background-color: red;
     margin-top: 8px;
     margin-bottom: 8px;
 }
@@ -33,6 +32,5 @@ button {
 @media screen and (min-width: 759px) {
     .form-div {
         width: 600px;
-        background-color: green;
     }    
 }
