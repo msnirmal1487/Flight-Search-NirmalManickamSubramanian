@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { CitiesService, City } from './cities.service';
+import { CitiesService, City } from './service/cities.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { config } from 'rxjs';
 import { ValidatorService } from './service/validator.service';
 
