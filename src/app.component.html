@@ -4,10 +4,10 @@
 
 <div class="content-div">
     <div class="form-div">
-        <form (submit)="onSubmit($event)" [formGroup]="flightSearchForm">
-            <mat-form-field color="primary"> 
+        <form (submit)="onSubmit($event)" [formGroup]="flightSearchForm" class="flight-search-form">
+            <mat-form-field color="primary" class="form-input-field"> 
                 <mat-label>{{departureCityLabel}}</mat-label>
-                <mat-select [formControl]="departureCity" (selectionChange)="checkFormValidity()">
+                <mat-select [formControl]="departureCity">
                     <mat-option *ngFor="let city of departureCities" value="{{city.value}}">{{city.name}}</mat-option>
                 </mat-select>
                 <mat-error><span *ngIf="departureCity.errors">
@@ -15,10 +15,10 @@
                     <span *ngIf="!departureCity.errors['required'] && departureCity.errors['citiesMatch']">{{departureCityLabel}} and {{destinationCityLabel}} cannot be the same</span>
                 </span></mat-error>
             </mat-form-field>
-
-            <mat-form-field  color="primary">
+            <img *ngIf="!departureCity.invalid && !destinationCity.invalid" class="swap-icon" src="assets/swap_vert_accent.svg" (click)="swapCities()">
+            <mat-form-field  color="primary"  class="form-input-field">
                 <mat-label>{{destinationCityLabel}}</mat-label>
-                <mat-select [formControl]="destinationCity" (selectionChange)="checkFormValidity()">
+                <mat-select [formControl]="destinationCity">
                     <mat-option *ngFor="let city of destinationCities" value="{{city.value}}">{{city.name}}</mat-option>
                 </mat-select>
                 <mat-error><span *ngIf="destinationCity.errors">
@@ -27,7 +27,7 @@
                 </span></mat-error>
             </mat-form-field>
 
-            <mat-form-field  color="primary">
+            <mat-form-field  color="primary"  class="form-input-field">
                 <mat-label>{{travelDatesLabel}}</mat-label>
                 <mat-date-range-input  [rangePicker]="picker">
                     <input (keydown)="disallowTyping($event)" maxlength="10" [formControl]="travelDateStart" matStartDate placeholder="Departure date">
@@ -39,16 +39,17 @@
                     
                     <span *ngIf="travelDateStart.errors ">
                         <span *ngIf="travelDateStart.errors['required']">Departure date is required</span>
-                        <span *ngIf="!travelDateStart.errors['required'] && travelDateStart.errors['invalidTime']">Departure date is invalid</span>
+                        <span *ngIf="!travelDateStart.errors['required'] && travelDateStart.errors['invalidTime']">Departure date should be today or later</span>
                     </span>
+                    <span *ngIf="travelDateStart.errors && travelDateEnd.errors"> - </span>
                     <span *ngIf="travelDateEnd.errors ">
-                        <span *ngIf="travelDateEnd.errors['required']"> - Return date is required</span>
-                        <span *ngIf="!travelDateEnd.errors['required'] && travelDateEnd.errors['invalidTime']"> - Return date is invalid</span>
+                        <span *ngIf="travelDateEnd.errors['required']">Return date is required</span>
+                        <span *ngIf="!travelDateEnd.errors['required'] && travelDateEnd.errors['invalidTime']">Return date should be today or later</span>
                     </span>
                 </mat-error>
             </mat-form-field>
 
-            <button mat-raised-button color="primary" [disabled]="flightSearchForm.invalid">Submit</button>
+            <button class="submit-button" mat-raised-button color="primary" [disabled]="flightSearchForm.invalid">Submit</button>
               
         </form>
     </div>

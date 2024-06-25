@@ -51,19 +51,8 @@ export class AppComponent implements OnInit {
     })
   }
 
-  checkFormValidity(){
-    // console.log("is Form Valid")
-    // this.citiesFormGroup.updateValueAndValidity();
-    // this.isFormInvalid = this.departureCity.invalid || this.destinationCity.invalid || this.travelDateStart.invalid || this.travelDateEnd.invalid;
-  }
-
   onSubmit(event: any){
     event.preventDefault();
-    console.log("onSubmit")
-    console.log(this.departureCity.value)
-    console.log(this.destinationCity.value)
-    console.log(this.travelDateStart.value)
-    console.log(this.travelDateEnd.value)
     const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         width: '400px',
@@ -77,6 +66,12 @@ export class AppComponent implements OnInit {
         window.location.href = currentUrl;
       }
     });
+  }
+
+  swapCities(){
+    const departureCityOld = this.departureCity.value ;
+    this.departureCity.setValue(this.destinationCity.value)
+    this.destinationCity.setValue(departureCityOld)
   }
 
   disallowTyping(key: KeyboardEvent){

@@ -13,6 +13,7 @@ import { importProvidersFrom } from '@angular/core';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogActions, MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { MatDialogActions, MatDialogModule} from '@angular/material/dialog';
     MatDatepickerModule,
     MatToolbarModule,
     MatDialogModule,
-    MatDialogActions
+    MatDialogActions,
+    MatIconModule
   ],
   providers: [CitiesService, importProvidersFrom(MatNativeDateModule)],
   bootstrap: [AppComponent],
