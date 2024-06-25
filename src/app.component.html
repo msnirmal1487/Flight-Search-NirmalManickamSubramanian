@@ -21,20 +21,31 @@
                     </mat-select>
                     <mat-error>{{destinationCityLabel}} is required</mat-error>
                 </mat-form-field>
-                <mat-error *ngIf="!departureCity.invalid && !destinationCity.invalid && citiesFormGroup.errors && citiesFormGroup.errors['citiesMatch']">{{departureCityLabel}} and {{destinationCityLabel}} cannot be the same</mat-error>
+                <mat-error *ngIf="citiesFormGroup.errors && citiesFormGroup.errors['citiesMatch']">{{departureCityLabel}} and {{destinationCityLabel}} cannot be the same</mat-error>
             </form>
 
             <mat-form-field>
                 <mat-label>{{travelDatesLabel}}</mat-label>
                 <mat-date-range-input  [rangePicker]="picker">
-                    <input [formControl]="travelDateStart" (selectionChange)="checkFormValidity()" matStartDate placeholder="Departure date">
-                    <input [formControl]="travelDateEnd" (change)="checkFormValidity()" matEndDate placeholder="Return date">
+                    <input (keydown)="allowOnlyValidKeys($event)" maxlength="10" [formControl]="travelDateStart" matStartDate placeholder="Departure date">
+                    <input (keydown)="allowOnlyValidKeys($event)" maxlength="10" [formControl]="travelDateEnd" matEndDate placeholder="Return date">
                 </mat-date-range-input>
                 <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-                <mat-error *ngIf="travelDateStart.invalid">Travel start date is required</mat-error>
-                <mat-error *ngIf="travelDateEnd.invalid">Travel end date is required</mat-error>
+                <mat-error>
+                    <span *ngIf="travelDateStart.errors ">
+                        <span *ngIf="travelDateStart.errors['required']">Departure date is required</span>
+                        <span *ngIf="!travelDateStart.errors['required'] && travelDateStart.errors['invalidTime']">Departure date is invalid</span>
+                    </span>
+                    <span *ngIf="travelDateEnd.errors ">
+                        <span *ngIf="travelDateEnd.errors['required']"> - Return date is required</span>
+                        <span *ngIf="!travelDateEnd.errors['required'] && travelDateEnd.errors['invalidTime']"> - Return date is invalid</span>
+                    </span>
+                </mat-error>
+                <!-- <mat-error *ngIf="travelDateStart?.errors?.required && travelDateEnd?.errors?.required ">{{travelDatesLabel}} is required</mat-error>
+                <mat-error *ngIf="travelDateStart.invalid && !travelDateEnd.invalid">Travel start date is required</mat-error>
+                <mat-error *ngIf="!travelDateStart.invalid && travelDateEnd.invalid">Travel end date is required</mat-error> -->
             </mat-form-field>
 
             <button mat-raised-button [disabled]="flightSearchForm.invalid">Submit</button>
